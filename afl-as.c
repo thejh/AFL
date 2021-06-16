@@ -509,7 +509,11 @@ int main(int argc, char** argv) {
 
   gettimeofday(&tv, &tz);
 
-  rand_seed = tv.tv_sec ^ tv.tv_usec ^ getpid();
+  if (getenv("AFL_FIXED_BOGUS_SEED_FOR_PERFORMANCE_TESTING")) {
+    rand_seed = 12345678;
+  } else {
+    rand_seed = tv.tv_sec ^ tv.tv_usec ^ getpid();
+  }
 
   srandom(rand_seed);
 
