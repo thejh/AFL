@@ -1,6 +1,7 @@
 # Binaries produced by "make".
 afl-analyze
 afl-as
+afl-bench
 afl-clang
 afl-clang++
 afl-fuzz
