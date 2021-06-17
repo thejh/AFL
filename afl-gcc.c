@@ -118,6 +118,7 @@ static void find_as(u8* argv0) {
 static void edit_params(u32 argc, char** argv) {
 
   u8 fortify_set = 0, asan_set = 0;
+  u8 linking = 1;
   u8 *name;
 
 #if defined(__FreeBSD__) && defined(__x86_64__)
@@ -210,6 +211,9 @@ static void edit_params(u32 argc, char** argv) {
 
     if (strstr(cur, "FORTIFY_SOURCE")) fortify_set = 1;
 
+    if (!strcmp(cur, "-c") || !strcmp(cur, "-S") || !strcmp(cur, "-E"))
+      linking = 0;
+
     cc_params[cc_par_cnt++] = cur;
 
   }
@@ -299,6 +303,9 @@ static void edit_params(u32 argc, char** argv) {
     cc_params[cc_par_cnt++] = "-fno-builtin-strcasestr";
 
   }
+
+  if (linking)
+    cc_params[cc_par_cnt++] = "/home/jannh/git/foreign/AFL/afl-forkserver-64.o";
 
   cc_params[cc_par_cnt] = NULL;
 

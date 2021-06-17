@@ -10,6 +10,8 @@ afl-gotcpu
 afl-showmap
 afl-tmin
 as
+afl-forkserver-32.o
+afl-forkserver-64.o
 
 # Binaries produced by "make -C llvm_mode"
 afl-clang-fast
