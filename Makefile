@@ -44,7 +44,7 @@ endif
 
 COMM_HDR    = alloc-inl.h config.h debug.h types.h
 
-all: test_x86 $(PROGS) afl-as afl-forkserver-64.o afl-forkserver-32.o test_build all_done
+all: test_x86 $(PROGS) afl-as afl-forkserver-64.o test_build all_done # afl-forkserver-32.o 
 
 ifndef AFL_NO_X86
 
@@ -92,7 +92,7 @@ afl-gotcpu: afl-gotcpu.c $(COMM_HDR) | test_x86
 
 ifndef AFL_NO_X86
 
-test_build: afl-gcc afl-as afl-showmap afl-forkserver-64.o afl-forkserver-32.o
+test_build: afl-gcc afl-as afl-showmap afl-forkserver-64.o #afl-forkserver-32.o
 	@echo "[*] Testing the CC wrapper and instrumentation output..."
 	unset AFL_USE_ASAN AFL_USE_MSAN; AFL_QUIET=1 AFL_INST_RATIO=100 AFL_PATH=. ./$(TEST_CC) $(CFLAGS) test-instr.c -o test-instr $(LDFLAGS)
 	./afl-showmap -m none -q -o .test-instr0 ./test-instr < /dev/null
@@ -103,7 +103,7 @@ test_build: afl-gcc afl-as afl-showmap afl-forkserver-64.o afl-forkserver-32.o
 
 else
 
-test_build: afl-gcc afl-as afl-showmap afl-forkserver-64.o afl-forkserver-32.o
+test_build: afl-gcc afl-as afl-showmap afl-forkserver-64.o #afl-forkserver-32.o
 	@echo "[!] Note: skipping build tests (you may need to use LLVM or QEMU mode)."
 
 endif
@@ -140,7 +140,7 @@ endif
 	set -e; for i in afl-g++ afl-clang afl-clang++; do ln -sf afl-gcc $${DESTDIR}$(BIN_PATH)/$$i; done
 	install -m 755 afl-as $${DESTDIR}$(HELPER_PATH)
 	ln -sf afl-as $${DESTDIR}$(HELPER_PATH)/as
-	if [ -f afl-forkserver-32.o ]; then set -e; install -m 755 afl-forkserver-32.o $${DESTDIR}$(HELPER_PATH); fi
+	#if [ -f afl-forkserver-32.o ]; then set -e; install -m 755 afl-forkserver-32.o $${DESTDIR}$(HELPER_PATH); fi
 	if [ -f afl-forkserver-64.o ]; then set -e; install -m 755 afl-forkserver-64.o $${DESTDIR}$(HELPER_PATH); fi
 	install -m 644 README.md docs/ChangeLog docs/*.txt $${DESTDIR}$(DOC_PATH)
 	cp -r testcases/ $${DESTDIR}$(MISC_PATH)
